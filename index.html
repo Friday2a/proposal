@@ -68,22 +68,37 @@
       width: 100%;
     }
 
-    .btn-row {
+    /*.btn-row {
       display: flex;
       justify-content: center;
       gap: 20px;
       position: relative;
       height: 60px;
+    }*/
+
+    .btn-row {
+      position: relative;   /* 🔥 critical */
+      width: 100%;
+      height: 140px;
+      margin-top: 15px;
     }
 
-    #noBtn {
+    /*#noBtn {
       background: #ff4d6d;
       color: white;
       position: absolute;
       left: 55%;
       top: 0;
     }
+*/
 
+    #noBtn {
+    position: absolute;
+    background: #ff4d6d;
+    color: white;
+    left: 55%;
+    top: 10px;
+  }
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
@@ -236,26 +251,32 @@
   }
 
     function attachNoButton() {
-      const noBtn = document.getElementById("noBtn");
+    const noBtn = document.getElementById("noBtn");
+    const container = document.querySelector(".btn-row");
 
-      noBtn.addEventListener("mouseover", moveButton);
-      noBtn.addEventListener("touchstart", moveButton);
+    function moveButton() {
+      const padding = 10;
 
-      function moveButton() {
-        const card = document.querySelector(".card");
-        const rect = card.getBoundingClientRect();
+      const maxX = Math.max(
+        container.clientWidth - noBtn.offsetWidth - padding,
+        1
+      );
+      const maxY = Math.max(
+        container.clientHeight - noBtn.offsetHeight - padding,
+        1
+      );
 
-        const maxX = rect.width - noBtn.offsetWidth - 10;
-        const maxY = rect.height - noBtn.offsetHeight - 10;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
 
-        const x = Math.random() * maxX;
-        const y = Math.random() * maxY;
-
-        noBtn.style.left = `${x}px`;
-        noBtn.style.top = `${y}px`;
-      }
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
     }
 
+    // Move BEFORE hover feels smoother
+    noBtn.addEventListener("mouseenter", moveButton);
+    noBtn.addEventListener("touchstart", moveButton);
+  }
     render();
   </script>
 
